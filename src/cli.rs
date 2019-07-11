@@ -21,8 +21,17 @@ pub struct Cli {
 		default_value = "0",
 		help = "Number of time to retry"
 	)]
-	// Retry the download
+	// Number of time to retry the download
 	pub retry: i32,
+
+	// Number of threads to use for download
+	#[structopt(
+		short = "t",
+		long = "threads",
+		default_value = "4",
+		help = "Number of threads to use for download"
+	)]
+	pub threads: usize,
 
 	#[structopt(flatten)]
 	// Verbose output

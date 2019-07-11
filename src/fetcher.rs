@@ -22,13 +22,14 @@ pub fn get_file() -> CliResult {
 	let url = args.url;
 	let filename = args.filename;
 	let retry = args.retry;
+	let threads = args.threads;
 	let mut attempts = 0; // Number of attempts to download file
 
 	let mut done = false;
 
 	let task1 = thread::spawn(move || {
 		while attempts <= retry {
-			let result = fetch_file_from_url(&url, &filename);
+			let result = fetch_file_from_url(&url, &filename, threads);
 			match result {
 				Ok(_x) => {
 					done = true;
@@ -68,7 +69,11 @@ pub fn get_file() -> CliResult {
 	Ok(())
 }
 
-fn fetch_file_from_url(url: &String, filename: &String) -> Result<(), std::io::Error> {
+fn fetch_file_from_url(
+	url: &String,
+	filename: &String,
+	threads: usize,
+) -> Result<(), std::io::Error> {
 	let client = Arc::new(Client::new());
 	let mut file = File::create(&filename).unwrap();
 
@@ -78,7 +83,7 @@ fn fetch_file_from_url(url: &String, filename: &String) -> Result<(), std::io::E
 		// Optional create cache path
 		.cache_path(PathBuf::from("~/.cache/curlr"))
 		// Number of threds to spawn
-		.threads(6)
+		.threads(threads)
 		// threshold (length in bytes) to determine when multiple threads are required.
 		.threshold_parallel(1 * 1024 * 1024)
 		// threshold for defining when to store parts in memory or on disk.
