@@ -8,8 +8,11 @@ rustget is a parallel downloader
 """
 readme = "README.md"
 license = "MIT"
-keywords = ["parallel-downloader", "command-line-tool", "download"]
-
+documentation = "https://github.com/SummaDiaboli/rustget"
+homepage = "https://github.com/SummaDiaboli/rustget"
+repository = "https://github.com/SummaDiaboli/rustget"
+keywords = ["get", "command-line"]
+categories = ["parallel-downloader", "command-line-tool", "download"]
 
 [[bin]]
 name = "rget"
