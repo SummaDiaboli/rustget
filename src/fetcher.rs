@@ -78,9 +78,8 @@ fn fetch_file_from_url(
 
 	ParallelGetter::new(&url, &mut file)
 		.client(client)
-		// TODO: library for temporary caching
-		// Optional create cache path
-		// .cache_path(PathBuf::from("~/.cache/curlr"))
+		// Create cache path
+		.cache_path(PathBuf::from("~/.cache/curlr"))
 		// Number of threds to spawn
 		.threads(threads)
 		// threshold (length in bytes) to determine when multiple threads are required.
