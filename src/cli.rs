@@ -22,7 +22,7 @@ pub struct Cli {
 		help = "Number of time to retry"
 	)]
 	// Number of time to retry the download
-	pub retry: i32,
+	pub retry: u32,
 
 	// Number of threads to use for download
 	#[structopt(

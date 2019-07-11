@@ -3,7 +3,7 @@ extern crate reqwest;
 
 use parallel_getter::ParallelGetter;
 use reqwest::Client;
-use std::fs::File;
+use std::fs::{remove_file, File};
 use std::path::PathBuf;
 use std::sync::Arc;
 use std::thread;
@@ -21,27 +21,25 @@ pub fn get_file() -> CliResult {
 
 	let url = args.url;
 	let filename = args.filename;
-	let retry = args.retry;
+	let retries = args.retry;
 	let threads = args.threads;
-	let mut attempts = 0; // Number of attempts to download file
+	// let mut attempts = 0; // Number of attempts to download file
 
 	let mut done = false;
 
 	let task1 = thread::spawn(move || {
-		while attempts <= retry {
-			let result = fetch_file_from_url(&url, &filename, threads);
-			match result {
-				Ok(_x) => {
-					done = true;
-					break;
-				}
-				Err(x) => {
-					println!("Error: {}", x);
-					attempts += 1;
-				}
+		let result = fetch_file_from_url(&url, &filename, threads, retries);
+		match result {
+			Ok(_x) => {
+				done = true;
+				// break;
 			}
-			done = true;
+			Err(x) => {
+				println!("Error: {}", x);
+				remove_file(&filename).unwrap();
+			}
 		}
+		done = true;
 	});
 
 	thread::spawn(move || {
@@ -53,7 +51,7 @@ pub fn get_file() -> CliResult {
 		let mut x = 1;
 		let bar = ProgressBar::new_spinner();
 		bar.set_style(
-			ProgressStyle::default_spinner().template("{msg} {spinner:2.cyan/green} [{elapsed}]"),
+			ProgressStyle::default_spinner().template("{msg} {spinner:2.red} [{elapsed}]"),
 		);
 		bar.set_message("Downloading...");
 		while done == false {
@@ -73,36 +71,24 @@ fn fetch_file_from_url(
 	url: &String,
 	filename: &String,
 	threads: usize,
+	retries: u32,
 ) -> Result<(), std::io::Error> {
 	let client = Arc::new(Client::new());
 	let mut file = File::create(&filename).unwrap();
 
 	ParallelGetter::new(&url, &mut file)
 		.client(client)
-		// TODO: fetch_file_from_url library for temporary caching
+		// TODO: library for temporary caching
 		// Optional create cache path
-		.cache_path(PathBuf::from("~/.cache/curlr"))
+		// .cache_path(PathBuf::from("~/.cache/curlr"))
 		// Number of threds to spawn
 		.threads(threads)
 		// threshold (length in bytes) to determine when multiple threads are required.
 		.threshold_parallel(1 * 1024 * 1024)
 		// threshold for defining when to store parts in memory or on disk.
 		.threshold_memory(10 * 1024 * 1024)
-
-		/* // Callback for monitoring progress.
-		.callback(
-			1000,
-			Box::new(|mut progress, mut total| {
-				// println!("{} of {} KiB downloaded", progress / 1024, total / 1024);
-				progress = 0;
-				total = 1000;
-				let bar = ProgressBar::new(1000);
-				for _ in progress..total {
-					bar.inc(1);
-				}
-			}),
-		) */
-
+		// number of times to retry download
+		.retries(retries)
 		// Commit the parallel GET requests.
 		.get()?;
 
