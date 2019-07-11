@@ -11,8 +11,8 @@ license = "MIT"
 documentation = "https://github.com/SummaDiaboli/rustget"
 homepage = "https://github.com/SummaDiaboli/rustget"
 repository = "https://github.com/SummaDiaboli/rustget"
-keywords = ["get", "command-line"]
-categories = ["parallel-downloader", "command-line-tool", "download"]
+keywords = ["get", "command-line", "file-download"]
+categories = ["command-line-utilities"]
 
 [[bin]]
 name = "rget"
