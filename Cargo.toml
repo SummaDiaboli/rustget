@@ -7,7 +7,7 @@ description = """
 rustget is a parallel downloader
 """
 readme = "README.md"
-license = "LICENSE-MIT"
+license = "MIT"
 keywords = ["parallel-downloader", "command-line-tool", "download"]
 
 
