@@ -1,6 +1,6 @@
 [package]
 name = "rustget"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["SummaDiaboli <salim.hussaini@backlinq.ng>"]
 edition = "2018"
 description = """

@@ -20,7 +20,7 @@ $ git clone https://github.com/SummaDiaboli/rustget
 $ cd rustget
 $ cargo build --release
 $ ./target/release/rget --version
-0.1.1
+0.1.2
 ~~~~
 
 ## Using rustget
@@ -54,14 +54,14 @@ $ rget -u https://www.google.com -r fish -d index.html
 
 ### Flags
 
-`-h`: Show rustget's condensed help output.  
-`--help`: Show rustget's longer form help output.  
-`-V/--version`: Prints the version information.  
+`-h`: Show rustget's condensed help output.
+`--help`: Show rustget's longer form help output.
+`-V/--version`: Prints the version information.
 `-v/--verbosity`: Pass many times for more log output. By default, it'll only report errors. Passing `-v` one time also prints warnings, `-vv` enables info logging, `-vvv` debug, and `-vvvv` trace.
 
 ### Options
 
-`-d/--dest <filename>`: Create filename. It could also the path, including the filename. **This is required**.  
-`-r/--retry <retry>`: Set number of time to retry download after failures in downloading. It defaults to `0`.  
-`-t/--threads <threads>`: Set the number of threads to use for the download. It defaults to `4`.  
-`-u/--url <url>`: The url to fetch the file from. **This is required**.  
+`-d/--dest <filename>`: Create filename. It could also the path, including the filename. **This is required**.
+`-r/--retry <retry>`: Set number of time to retry download after failures in downloading. It defaults to `0`.
+`-t/--threads <threads>`: Set the number of threads to use for the download. It defaults to `4`.
+`-u/--url <url>`: The url to fetch the file from. **This is required**.
