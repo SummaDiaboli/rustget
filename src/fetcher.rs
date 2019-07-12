@@ -1,15 +1,15 @@
 extern crate parallel_getter;
 extern crate reqwest;
 
-use parallel_getter::ParallelGetter;
-use reqwest::Client;
 use std::fs::{remove_file, File};
 use std::path::PathBuf;
 use std::sync::Arc;
 use std::thread;
 
 use indicatif::{ProgressBar, ProgressStyle};
+use parallel_getter::ParallelGetter;
 use quicli::prelude::*;
+use reqwest::Client;
 use structopt::StructOpt;
 
 use crate::cli::Cli;
